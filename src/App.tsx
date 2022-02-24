@@ -1,0 +1,32 @@
+import axios from 'axios'
+import { useState, useEffect } from 'react'
+
+type Repository = {
+  full_name: string;
+  description: string;
+}
+
+function App() {
+  const [repositories, setRepositories] = useState<Repository[]>([])
+
+  useEffect(() => {
+    axios.get('https://api.github.com/users/tava1/repos')
+      .then(response => {
+        setRepositories(response.data);
+      })
+  }, [])
+
+  return (
+
+    <ul>
+      {repositories.map(repo => (
+        <li key={repo.full_name}>
+          <strong>{repo.full_name}</strong>
+          <p>{repo.description}</p>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+export default App
